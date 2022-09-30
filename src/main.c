@@ -2,8 +2,11 @@
 #include "../headers/cstring.h";
 
 int main() {
-    String s = create("abcdefg");
+    String s = create("abc");
+    printf("%d, %s\n", s.size, toString(s));
 
-    printf("%s", toString(s));
-    return 0;
+    set(&s, "hello");
+    printf("%d, %s", s.size, toString(s));
+
+    return EXIT_SUCCESS;
 }

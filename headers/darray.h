@@ -39,6 +39,12 @@ void free_(DArray* array) {
     array->size = 0;
 }
 
+/// Resets the struct object to its initial state.
+void reset_(DArray* array) {
+    free_(array);
+    init_(array);
+}
+
 /// Adds an element to the struct object passed.
 void add_(DArray* array, TYPE value) {
     array->size += 1;

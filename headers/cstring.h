@@ -16,7 +16,9 @@ typedef struct String {
 } String;
 
 void set(String* string, TYPE chars[]) {
-    // TODO: string->string.arr != NULL
+    if (string->size > 0) {
+        reset_(&string->string);
+    }
 
     for (int i = 0; i < strlen(chars); ++i) {
         add_(&string->string, chars[i]);
