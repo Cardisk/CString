@@ -9,6 +9,7 @@
 #include "darray.h"
 
 #include <string.h>
+#include <ctype.h>
 
 typedef struct String {
     DArray string;
@@ -25,6 +26,27 @@ void set(String* string, TYPE chars[]) {
     }
 
     string->size = string->string.size;
+}
+
+TYPE* capitalize(String string) {
+    if (string.size > 0) {
+        string.string.arr[0] = !isupper(string.string.arr[0]) ? string.string.arr[0] - 32 : string.string.arr[0];
+        return string.string.arr;
+    }
+
+    return NULL;
+}
+
+TYPE* casefold(String string) {
+    if (string.size > 0) {
+        for (int i = 0; i < string.size; ++i) {
+            string.string.arr[i] = isupper(string.string.arr[i]) ? string.string.arr[i] + 32 : string.string.arr[i];
+        }
+
+        return string.string.arr;
+    }
+
+    return NULL;
 }
 
 TYPE* toString(String string) {
