@@ -1,6 +1,9 @@
 #include <stdio.h>
+#include "../headers/cstring.h";
 
 int main() {
-    printf("Hello, World!\n");
+    String s = create("abcdefg");
+
+    printf("%s", toString(s));
     return 0;
 }
