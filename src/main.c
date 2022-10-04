@@ -2,11 +2,16 @@
 #include "../headers/cstring.h";
 
 int main() {
-    String s = create("abc");
-    printf("%d, %s\n", s.size, toString(s));
+    String s1 = create("abc");
+    printf("%zu, %s\n", s1.size, chars(s1));
 
-    set(&s, "HelLO");
-    printf("%d, %s", s.size, casefold(s));
+    set(&s1, "HelLO");
+    printf("%zu, %s\n", s1.size, casefold(s1));
 
+    set(&s1, "test");
+    printf("%zu, %s\n", s1.size, capitalize(s1));
+
+    String s2 = create("aaa");
+    printf("Compare: %d\n", compare(s1, s2));
     return EXIT_SUCCESS;
 }

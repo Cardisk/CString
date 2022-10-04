@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cppcoreguidelines-narrowing-conversions"
 //
 // Created by Matteo Cardinaletti on 29/09/22.
 //
@@ -10,6 +12,8 @@
 
 #include <string.h>
 #include <ctype.h>
+
+#define MIN(a, b) ((a) > (b)) ? (b) : (a)
 
 typedef struct String {
     DArray string;
@@ -29,6 +33,7 @@ void set(String* string, TYPE chars[]) {
 }
 
 TYPE* capitalize(String string) {
+    // TODO: sto modificando la stringa stessa, guarda strncpy
     if (string.size > 0) {
         string.string.arr[0] = !isupper(string.string.arr[0]) ? string.string.arr[0] - 32 : string.string.arr[0];
         return string.string.arr;
@@ -38,19 +43,34 @@ TYPE* capitalize(String string) {
 }
 
 TYPE* casefold(String string) {
+    // TODO: sto modificando la stringa stessa, guarda strncpy
     if (string.size > 0) {
         for (int i = 0; i < string.size; ++i) {
             string.string.arr[i] = isupper(string.string.arr[i]) ? string.string.arr[i] + 32 : string.string.arr[i];
         }
-
         return string.string.arr;
     }
 
     return NULL;
 }
 
-TYPE* toString(String string) {
+TYPE* chars(String string) {
     return string.string.arr;
+}
+
+TYPE charAt(String string, int index) {
+    if (index < - string.size + 1 || index > string.size - 1) return '\0';
+
+    if (index < 0) return string.string.arr[string.size + index];
+    return string.string.arr[index];
+}
+
+int compare(String s1, String s2) {
+    for ( ; *s1.string.arr == *s2.string.arr; ++s1.string.arr, ++s2.string.arr) {
+        if (*s1.string.arr == '\0') return 0;
+    }
+
+    return *s1.string.arr - *s2.string.arr;
 }
 
 String create(TYPE chars[]) {
@@ -61,3 +81,5 @@ String create(TYPE chars[]) {
 }
 
 #endif //CSTRING_CSTRING_H
+
+#pragma clang diagnostic pop

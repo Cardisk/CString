@@ -2,8 +2,8 @@
 // Created by Matteo Cardinaletti on 28/09/22.
 //
 
-#ifndef DARRAY_DARRAY_GENERICS_H
-#define DARRAY_DARRAY_GENERICS_H
+#ifndef CSTRING_DARRAY_H
+#define CSTRING_DARRAY_H
 
 #ifndef TYPE
 #define TYPE int
@@ -85,4 +85,4 @@ void delete_(DArray *array, int index) {
     array->size -= 1;
 }
 
-#endif // DARRAY_DARRAY_GENERICS_H
+#endif // CSTRING_DARRAY_H
