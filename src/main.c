@@ -13,5 +13,8 @@ int main() {
 
     String s2 = create("aaa");
     printf("Compare: %d\n", compare(s1, s2));
+
+    set(&s2, "concat");
+    printf("Concat: %s\n", concat(s1, s2));
     return EXIT_SUCCESS;
 }

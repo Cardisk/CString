@@ -98,6 +98,18 @@ int compareIgnoreCase(String s1, String s2) {
     return *c1 - *c2;
 }
 
+TYPE* concat(String s1, String s2) {
+    // TODO: maybe is better to modify directly the string element instead of creating a new one.
+    TYPE* chars = (TYPE*) malloc((s1.size + s2.size) * sizeof(TYPE));
+    strncpy(chars, s1.string.arr, s1.size);
+
+    for (int i = 0; i < s2.size; ++i) {
+        chars[i + s1.size] = s2.string.arr[i];
+    }
+
+    return chars;
+}
+
 String create(TYPE chars[]) {
     String s;
     init_(&s.string);
