@@ -1,3 +1,3 @@
 # CString
 
-Object-like strings in c.
+Strings in c.
