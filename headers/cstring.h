@@ -13,8 +13,6 @@
 #include <string.h>
 #include <ctype.h>
 
-#define MIN(a, b) ((a) > (b)) ? (b) : (a)
-
 typedef struct String {
     DArray string;
     size_t size;
@@ -33,22 +31,28 @@ void set(String* string, TYPE chars[]) {
 }
 
 TYPE* capitalize(String string) {
-    // TODO: sto modificando la stringa stessa, guarda strncpy
+    // TODO: maybe is better to modify directly the string element instead of creating a new one.
     if (string.size > 0) {
-        string.string.arr[0] = !isupper(string.string.arr[0]) ? string.string.arr[0] - 32 : string.string.arr[0];
-        return string.string.arr;
+        TYPE* chars = (TYPE*) malloc(string.size * sizeof(TYPE));
+        strncpy(chars, string.string.arr, string.size);
+
+        chars[0] = !isupper(chars[0]) ? chars[0] - 32 : chars[0];
+        return chars;
     }
 
     return NULL;
 }
 
 TYPE* casefold(String string) {
-    // TODO: sto modificando la stringa stessa, guarda strncpy
+    // TODO: maybe is better to modify directly the string element instead of creating a new one.
     if (string.size > 0) {
+        TYPE* chars = (TYPE*) malloc(string.size * sizeof(TYPE));
+        strncpy(chars, string.string.arr, string.size);
+
         for (int i = 0; i < string.size; ++i) {
-            string.string.arr[i] = isupper(string.string.arr[i]) ? string.string.arr[i] + 32 : string.string.arr[i];
+            chars[i] = isupper(chars[i]) ? chars[i] + 32 : chars[i];
         }
-        return string.string.arr;
+        return chars;
     }
 
     return NULL;
