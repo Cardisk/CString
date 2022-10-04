@@ -69,12 +69,33 @@ TYPE charAt(String string, int index) {
     return string.string.arr[index];
 }
 
+/*
+ * int < 0 : s1 < s2 alphabetically
+ * int = 0 : s1 = s2 alphabetically
+ * int > 0 : s1 > s2 alphabetically
+ */
 int compare(String s1, String s2) {
     for ( ; *s1.string.arr == *s2.string.arr; ++s1.string.arr, ++s2.string.arr) {
         if (*s1.string.arr == '\0') return 0;
     }
 
     return *s1.string.arr - *s2.string.arr;
+}
+
+/*
+ * int < 0 : s1 < s2 alphabetically
+ * int = 0 : s1 = s2 alphabetically
+ * int > 0 : s1 > s2 alphabetically
+ */
+int compareIgnoreCase(String s1, String s2) {
+    TYPE* c1 = casefold(s1);
+    TYPE* c2 = casefold(s2);
+
+    for ( ; *c1 == *c2; ++c1, ++c2) {
+        if (*c1 == '\0') return 0;
+    }
+
+    return *c1 - *c2;
 }
 
 String create(TYPE chars[]) {
