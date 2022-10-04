@@ -12,6 +12,7 @@
 
 #include <string.h>
 #include <ctype.h>
+#include <stdbool.h>
 
 typedef struct String {
     DArray string;
@@ -108,6 +109,10 @@ TYPE* concat(String s1, String s2) {
     }
 
     return chars;
+}
+
+bool isEmpty(String string) {
+    return string.size == 0;
 }
 
 String create(TYPE chars[]) {

@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../headers/cstring.h";
+#include "../headers/cstring.h"
 
 int main() {
     String s1 = create("abc");
@@ -16,5 +16,7 @@ int main() {
 
     set(&s2, "concat");
     printf("Concat: %s\n", concat(s1, s2));
+
+    printf("isEmpty: %d", isEmpty(s1));
     return EXIT_SUCCESS;
 }
