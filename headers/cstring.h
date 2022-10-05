@@ -123,6 +123,15 @@ int indexOf(String string, TYPE ch) {
     return i;
 }
 
+int lastIndexOf(String string, TYPE ch) {
+    int last = 0, i = 0;
+    for (; i < string.size; ++i) {
+        if (string.string.arr[i] == ch) last = i;
+    }
+
+    return last;
+}
+
 String create(TYPE chars[]) {
     String s;
     init_(&s.string);
