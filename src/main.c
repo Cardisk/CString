@@ -3,24 +3,32 @@
 
 int main() {
     String s1 = create("abc");
-    printf("%zu, %s\n", s1.size, chars(s1));
+    printf("CHARS: %s\n", chars(s1));
 
     set(&s1, "HelLO");
-    printf("%zu, %s\n", s1.size, casefold(s1));
+    printf("CASEFOLD: %s -> %s\n", chars(s1), casefold(s1));
 
     set(&s1, "test");
-    printf("%zu, %s\n", s1.size, capitalize(s1));
+    printf("CAPITALIZE: %s -> %s\n", chars(s1), capitalize(s1));
 
     String s2 = create("aaa");
-    printf("Compare: %d\n", compare(s1, s2));
+    printf("COMPARE: %s, %s -> %d\n", chars(s1), chars(s2), compare(s1, s2));
 
     set(&s2, "concat");
-    printf("Concat: %s\n", concat(s1, s2));
+    printf("CONCAT: %s, %s -> %s\n", chars(s1), chars(s2), concat(s1, s2));
 
-    printf("isEmpty: %d\n", isEmpty(s1));
+    printf("ISEMPTY: %s -> %d\n", chars(s1), isEmpty(s1));
 
-    printf("IndexOf: %d\n", indexOf(s1, 's'));
+    printf("INDEXOF: %s, %c -> %d\n", chars(s1), 's', indexOf(s1, 's'));
 
-    printf("Contains: %d", contains(s1, ""));
+    printf("INDEXOFSUBSTR: %s, %s -> %d\n", chars(s1), "es", indexOfSubStr(s1, "es"));
+
+    printf("CONTAINS: %s, %s -> %d\n", chars(s1), "t", contains(s1, "t"));
+
+    printf("ENDSWITH: %s, %s -> %d\n", chars(s1), "st", endsWith(s1, "st"));
+
+    printf("STARTSWITH: %s, %s -> %d\n", chars(s1), "t", startsWith(s1, "t"));
+
+    printf("EQUALS: %s, %s -> %d\n", chars(s1), chars(s2), equals(s1, s2));
     return EXIT_SUCCESS;
 }

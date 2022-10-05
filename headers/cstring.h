@@ -136,18 +136,39 @@ int lastIndexOf(String string, TYPE ch) {
     return last;
 }
 
-bool contains(String string, TYPE seq[]) {
-    int j = 0, s_seq = strlen(seq);
+int indexOfSubStr(String src, TYPE seq[]) {
+    int s_seq = strlen(seq);
+    if (src.size == s_seq || s_seq == 0) return 0;
+    if (src.size == 0) return -1;
 
-    if (s_seq == 0 || string.size) return false;
-
-    for (int i = 0; i < string.size; ++i) {
-        if (string.string.arr[i] == seq[j]) j++;
+    int i = 0, j = 0;
+    for (; i < src.size; ++i) {
+        if (src.string.arr[i] == seq[j]) j++;
         else j = 0;
 
         if (j == s_seq) break;
     }
-    return j == s_seq;
+    return (j == s_seq) ? (i - (s_seq - 1)) : -1;
+}
+
+bool contains(String string, TYPE seq[]) {
+    return (indexOfSubStr(string, seq) != -1) ? true : false;
+}
+
+bool endsWith(String string, TYPE seq[]) {
+    int index = indexOfSubStr(string, seq);
+    if (index != -1) {
+        if (index + strlen(seq) == string.size) return true;
+    }
+    return false;
+}
+
+bool startsWith(String string, TYPE seq[]) {
+    return indexOfSubStr(string, seq) == 0;
+}
+
+bool equals(String s1, String s2) {
+    return (s1.size == s2.size) && (indexOfSubStr(s1, s2.string.arr) == 0);
 }
 
 String create(TYPE chars[]) {
