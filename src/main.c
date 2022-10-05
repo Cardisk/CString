@@ -17,6 +17,8 @@ int main() {
     set(&s2, "concat");
     printf("Concat: %s\n", concat(s1, s2));
 
-    printf("isEmpty: %d", isEmpty(s1));
+    printf("isEmpty: %d\n", isEmpty(s1));
+
+    printf("IndexOf: %d\n", indexOf(s1, 's'));
     return EXIT_SUCCESS;
 }

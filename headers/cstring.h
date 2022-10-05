@@ -115,6 +115,14 @@ bool isEmpty(String string) {
     return string.size == 0;
 }
 
+int indexOf(String string, TYPE ch) {
+    int i = 0;
+    for ( ; i < string.size; ++i) {
+        if (string.string.arr[i] == ch) break;
+    }
+    return i;
+}
+
 String create(TYPE chars[]) {
     String s;
     init_(&s.string);
