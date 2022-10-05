@@ -116,6 +116,8 @@ bool isEmpty(String string) {
 }
 
 int indexOf(String string, TYPE ch) {
+    if (string.size == 0) return -1;
+
     int i = 0;
     for ( ; i < string.size; ++i) {
         if (string.string.arr[i] == ch) break;
@@ -124,12 +126,28 @@ int indexOf(String string, TYPE ch) {
 }
 
 int lastIndexOf(String string, TYPE ch) {
+    if (string.size == 0) return -1;
+
     int last = 0, i = 0;
     for (; i < string.size; ++i) {
         if (string.string.arr[i] == ch) last = i;
     }
 
     return last;
+}
+
+bool contains(String string, TYPE seq[]) {
+    int j = 0, s_seq = strlen(seq);
+
+    if (s_seq == 0 || string.size) return false;
+
+    for (int i = 0; i < string.size; ++i) {
+        if (string.string.arr[i] == seq[j]) j++;
+        else j = 0;
+
+        if (j == s_seq) break;
+    }
+    return j == s_seq;
 }
 
 String create(TYPE chars[]) {

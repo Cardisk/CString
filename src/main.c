@@ -20,5 +20,7 @@ int main() {
     printf("isEmpty: %d\n", isEmpty(s1));
 
     printf("IndexOf: %d\n", indexOf(s1, 's'));
+
+    printf("Contains: %d", contains(s1, ""));
     return EXIT_SUCCESS;
 }
