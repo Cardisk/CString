@@ -11,6 +11,8 @@ int main() {
     set(&s1, "test");
     printf("CAPITALIZE: %s -> %s\n", chars(s1), capitalize(s1));
 
+    printf("UPPER: %s -> %s\n", chars(s1), upper(s1));
+
     String s2 = create("aaa");
     printf("COMPARE: %s, %s -> %d\n", chars(s1), chars(s2), compare(s1, s2));
 

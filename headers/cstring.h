@@ -59,6 +59,21 @@ TYPE* casefold(String string) {
     return NULL;
 }
 
+TYPE* upper(String string) {
+    if (string.size > 0) {
+        TYPE* chars = (TYPE*) malloc(string.size * sizeof(TYPE));
+        strncpy(chars, string.string.arr, string.size);
+
+        for (int i = 0; i < string.size; ++i) {
+            chars[i] = !isupper(chars[i]) ? chars[i] - 32 : chars[i];
+        }
+
+        return chars;
+    }
+
+    return NULL;
+}
+
 TYPE* chars(String string) {
     return string.string.arr;
 }
