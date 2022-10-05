@@ -13,6 +13,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <regex.h>
 
 typedef struct String {
     DArray string;
@@ -203,12 +204,26 @@ bool equals(String s1, String s2) {
     return (s1.size == s2.size) && (indexOfSubStr(s1, s2.string.arr) == 0);
 }
 
-//TODO: equalsIgnoreCase(String s1, String s2) -> need to refactor indexOfSubStr to take also a char* as a src.
 bool equalsIgnoreCase(String s1, String s2) {
     TYPE* c1 = casefold(s1);
     TYPE* c2 = casefold(s2);
 
     return (s1.size == s2.size) && (indexOfSubStr(c1, c2) == 0);
+}
+
+bool matches(String s, TYPE reg[]) {
+    regex_t regex;
+    int result;
+
+    result = regcomp(&regex, reg, 0);
+    if (result) {
+        printf("Unsuccessful regex compilation.");
+        exit(EXIT_FAILURE);
+    }
+    result = regexec(&regex, s.string.arr, 0, NULL, 0);
+    regfree(&regex);
+
+    return result == 0;
 }
 
 String create(TYPE chars[]) {

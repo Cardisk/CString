@@ -33,6 +33,8 @@ int main() {
 
     printf("EQUALS: %s, %s -> %d\n", chars(s1), chars(s2), equals(s1, s2));
 
+    printf("MATCHES: %s, %s -> %d\n", chars(s1), "[0-9]", matches(s1, "[0-9]"));
+
     destroy(&s1);
     destroy(&s2);
     return EXIT_SUCCESS;
