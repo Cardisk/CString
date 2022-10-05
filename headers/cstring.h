@@ -151,7 +151,7 @@ int lastIndexOf(String string, TYPE ch) {
     return last;
 }
 
-int indexOfSubStr(String src, TYPE seq[]) {
+int indexOfSubStr_(String src, TYPE seq[]) {
     int s_seq = strlen(seq);
     if (src.size == s_seq || s_seq == 0) return 0;
     if (src.size == 0) return -1;
@@ -165,6 +165,23 @@ int indexOfSubStr(String src, TYPE seq[]) {
     }
     return (j == s_seq) ? (i - (s_seq - 1)) : -1;
 }
+
+int indexOfSubStr__(TYPE src[], TYPE seq[]) {
+    int s_seq = strlen(seq), s_src = strlen(src);
+    if (s_src == s_seq || s_seq == 0) return 0;
+    if (s_src == 0) return -1;
+
+    int i = 0, j = 0;
+    for (; i < s_src; ++i) {
+        if (src[i] == seq[j]) j++;
+        else j = 0;
+
+        if (j == s_seq) break;
+    }
+    return (j == s_seq) ? (i - (s_seq - 1)) : -1;
+}
+
+#define indexOfSubStr(x, y) _Generic(x, String: indexOfSubStr_, TYPE*: indexOfSubStr__)(x, y)
 
 bool contains(String string, TYPE seq[]) {
     return (indexOfSubStr(string, seq) != -1) ? true : false;
@@ -187,6 +204,12 @@ bool equals(String s1, String s2) {
 }
 
 //TODO: equalsIgnoreCase(String s1, String s2) -> need to refactor indexOfSubStr to take also a char* as a src.
+bool equalsIgnoreCase(String s1, String s2) {
+    TYPE* c1 = casefold(s1);
+    TYPE* c2 = casefold(s2);
+
+    return (s1.size == s2.size) && (indexOfSubStr(c1, c2) == 0);
+}
 
 String create(TYPE chars[]) {
     String s;
