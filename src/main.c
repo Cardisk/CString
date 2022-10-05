@@ -30,5 +30,8 @@ int main() {
     printf("STARTSWITH: %s, %s -> %d\n", chars(s1), "t", startsWith(s1, "t"));
 
     printf("EQUALS: %s, %s -> %d\n", chars(s1), chars(s2), equals(s1, s2));
+
+    destroy(&s1);
+    destroy(&s2);
     return EXIT_SUCCESS;
 }

@@ -171,11 +171,18 @@ bool equals(String s1, String s2) {
     return (s1.size == s2.size) && (indexOfSubStr(s1, s2.string.arr) == 0);
 }
 
+//TODO: equalsIgnoreCase(String s1, String s2) -> need to refactor indexOfSubStr to take also a char* as a src.
+
 String create(TYPE chars[]) {
     String s;
     init_(&s.string);
     set(&s, chars);
     return s;
+}
+
+void destroy(String* string) {
+    string->size = 0;
+    free_(&string->string);
 }
 
 #endif //CSTRING_CSTRING_H
