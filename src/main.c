@@ -35,6 +35,8 @@ int main() {
 
     printf("MATCHES: %s, %s -> %d\n", chars(s1), "[0-9]", matches(s1, "[0-9]"));
 
+    printf("REPLACE: %s, %c, %c -> %s\n", chars(s1), 's', 'S', replace(s1, 's', 'S'));
+
     destroy(&s1);
     destroy(&s2);
     return EXIT_SUCCESS;

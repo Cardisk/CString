@@ -226,6 +226,17 @@ bool matches(String s, TYPE reg[]) {
     return result == 0;
 }
 
+TYPE* replace(String string, TYPE old_, TYPE new_) {
+    TYPE* chars = (TYPE*) malloc(string.size * sizeof(TYPE));
+    strncpy(chars, string.string.arr, string.size);
+
+    for (int i = 0; i < string.size; ++i) {
+        if (chars[i] == old_) chars[i] = new_;
+    }
+
+    return chars;
+}
+
 String create(TYPE chars[]) {
     String s;
     init_(&s.string);
