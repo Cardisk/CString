@@ -154,7 +154,7 @@ int lastIndexOf(String string, TYPE ch) {
 
 int indexOfSubStr_(String src, TYPE seq[]) {
     int s_seq = strlen(seq);
-    if (src.size == s_seq || s_seq == 0) return 0;
+    if ((src.size == s_seq && s_seq == 0) || s_seq == 0) return 0;
     if (src.size == 0) return -1;
 
     int i = 0, j = 0;
@@ -169,7 +169,7 @@ int indexOfSubStr_(String src, TYPE seq[]) {
 
 int indexOfSubStr__(TYPE src[], TYPE seq[]) {
     int s_seq = strlen(seq), s_src = strlen(src);
-    if (s_src == s_seq || s_seq == 0) return 0;
+    if ((s_src == s_seq && s_seq == 0) || s_seq == 0) return 0;
     if (s_src == 0) return -1;
 
     int i = 0, j = 0;
@@ -226,7 +226,7 @@ bool matches(String s, TYPE reg[]) {
     return result == 0;
 }
 
-TYPE* replace(String string, TYPE old_, TYPE new_) {
+TYPE* replace_(String string, TYPE old_, TYPE new_) {
     TYPE* chars = (TYPE*) malloc(string.size * sizeof(TYPE));
     strncpy(chars, string.string.arr, string.size);
 
@@ -236,6 +236,26 @@ TYPE* replace(String string, TYPE old_, TYPE new_) {
 
     return chars;
 }
+
+TYPE* replace__(String string, TYPE old_[], TYPE new_[]) {
+    int s_old = strlen(old_);
+    if (s_old != strlen(new_)) return NULL;
+
+    TYPE* chars = (TYPE*) malloc(string.size * sizeof(TYPE));
+    strncpy(chars, string.string.arr, string.size);
+
+    int index;
+    do {
+        index = indexOfSubStr(chars, old_);
+        for (int i = index, j = 0; i < index + s_old; ++i, ++j) {
+            chars[i] = new_[j];
+        }
+    } while (index != -1);
+
+    return chars;
+}
+
+#define replace(x, y, z) _Generic((y, z), int: replace_, TYPE*: replace__)(x, y, z)
 
 String create(TYPE chars[]) {
     String s;
