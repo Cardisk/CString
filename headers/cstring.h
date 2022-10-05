@@ -257,6 +257,8 @@ TYPE* replace__(String string, TYPE old_[], TYPE new_[]) {
 
 #define replace(x, y, z) _Generic((y, z), int: replace_, TYPE*: replace__)(x, y, z)
 
+//TODO: split(regex), substring(begin), substring(begin, end), trim();
+
 String create(TYPE chars[]) {
     String s;
     init_(&s.string);
