@@ -255,30 +255,13 @@ TYPE* replace__(String string, TYPE old_[], TYPE new_[]) {
 
 #define replace(x, y, z) _Generic((y, z), int: replace_, TYPE*: replace__)(x, y, z)
 
-// FIXME: broken somewhere
 TYPE* trim(String string) {
-    TYPE* chars = to_chars(string);
+    size_t size = string.size;
 
-    int shifts = 0;
-    while(chars[0] == ' ' || chars[0] == '\t' || chars[0] == '\n') {
-        for (int i = 0; i < string.size - 1; ++i) {
-            chars[i] = chars[i + 1];
-        }
-        shifts++;
-    }
+    while(isspace(string.string.arr[size - 1])) --size;
+    while(*string.string.arr && isspace(*string.string.arr)) ++string.string.arr, --size;
 
-    for (int i = string.size - shifts; i >= 0 ; ++i) {
-        if (chars[i] == ' ' || chars[i] == '\t' || chars[i] == '\n') shifts++;
-    }
-
-    TYPE* pointer = (TYPE *) realloc(chars, (string.size - shifts) * sizeof(TYPE));
-    if (!pointer) {
-        printf("Memory allocation failed.");
-        free(pointer);
-        exit(EXIT_FAILURE);
-    }
-    chars = pointer;
-    return chars;
+    return strndup(string.string.arr, size);
 }
 
 //TODO: split(regex), substring(begin), substring(begin, end);
