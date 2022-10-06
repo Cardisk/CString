@@ -40,6 +40,9 @@ int main() {
     set(&s1, "  test  ");
     printf("TRIM: \'%s\' -> \'%s\'\n", to_chars(s1), trim(s1));
 
+    set(&s1, "test");
+    printf("SUBSTRING: %s -> %s\n", to_chars(s1), substring_begin(s1, 1));
+
     destroy(&s1);
     destroy(&s2);
     return EXIT_SUCCESS;

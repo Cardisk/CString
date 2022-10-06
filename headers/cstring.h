@@ -264,6 +264,23 @@ TYPE* trim(String string) {
     return strndup(string.string.arr, size);
 }
 
+TYPE* substring_begin(String string, int beginIndex) {
+    if (beginIndex < 0 || beginIndex >= string.size) return NULL;
+
+    for (int i = 0; i < beginIndex; ++i) ++string.string.arr;
+
+    return strndup(string.string.arr, (string.size - beginIndex));
+}
+
+TYPE* substring_begin_end(String string, int beginIndex, int endIndex) {
+    if (beginIndex < 0 || beginIndex >= string.size ||
+        endIndex < 0 || endIndex >= string.size || beginIndex == endIndex) return NULL;
+
+    for (int i = 0; i < beginIndex; ++i) ++string.string.arr;
+
+    return strndup(string.string.arr, (endIndex - beginIndex));
+}
+
 //TODO: split(regex), substring(begin), substring(begin, end);
 
 String create(TYPE chars[]) {
