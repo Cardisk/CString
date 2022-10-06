@@ -37,6 +37,9 @@ int main() {
 
     printf("REPLACE: %s, %c, %c -> %s\n", chars(s1), 's', 'S', replace(s1, 's', 'S'));
 
+    set(&s1, "  test  ");
+    printf("TRIM: \'%s\' -> \'%s\'\n", chars(s1), trim(s1));
+
     destroy(&s1);
     destroy(&s2);
     return EXIT_SUCCESS;

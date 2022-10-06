@@ -76,7 +76,10 @@ TYPE* upper(String string) {
 }
 
 TYPE* chars(String string) {
-    return string.string.arr;
+    TYPE* chars = (TYPE*) malloc(string.size * sizeof(TYPE));
+    strncpy(chars, string.string.arr, string.size);
+
+    return chars;
 }
 
 TYPE charAt(String string, int index) {
@@ -257,7 +260,34 @@ TYPE* replace__(String string, TYPE old_[], TYPE new_[]) {
 
 #define replace(x, y, z) _Generic((y, z), int: replace_, TYPE*: replace__)(x, y, z)
 
-//TODO: split(regex), substring(begin), substring(begin, end), trim();
+// FIXME: broken somewhere
+TYPE* trim(String string) {
+    TYPE* chars = (TYPE*) malloc(string.size * sizeof(TYPE));
+    strncpy(chars, string.string.arr, string.size);
+
+    int shifts = 0;
+    while(chars[0] == ' ' || chars[0] == '\t' || chars[0] == '\n') {
+        for (int i = 0; i < string.size - 1; ++i) {
+            chars[i] = chars[i + 1];
+        }
+        shifts++;
+    }
+
+    for (int i = string.size - shifts; i >= 0 ; ++i) {
+        if (chars[i] == ' ' || chars[i] == '\t' || chars[i] == '\n') shifts++;
+    }
+
+    TYPE* pointer = (TYPE *) realloc(chars, (string.size - shifts) * sizeof(TYPE));
+    if (!pointer) {
+        printf("Memory allocation failed.");
+        free(pointer);
+        exit(EXIT_FAILURE);
+    }
+    chars = pointer;
+    return chars;
+}
+
+//TODO: split(regex), substring(begin), substring(begin, end);
 
 String create(TYPE chars[]) {
     String s;
