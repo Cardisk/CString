@@ -32,11 +32,17 @@ void set(String* string, TYPE chars[]) {
     string->size = string->string.size;
 }
 
+TYPE* to_chars(String string) {
+    TYPE* chars = (TYPE*) malloc(string.size * sizeof(TYPE));
+    strncpy(chars, string.string.arr, string.size);
+
+    return chars;
+}
+
 TYPE* capitalize(String string) {
     // TODO: maybe is better to modify directly the string element instead of creating a new one.
     if (string.size > 0) {
-        TYPE* chars = (TYPE*) malloc(string.size * sizeof(TYPE));
-        strncpy(chars, string.string.arr, string.size);
+        TYPE* chars = to_chars(string);
 
         chars[0] = !isupper(chars[0]) ? chars[0] - 32 : chars[0];
         return chars;
@@ -48,8 +54,7 @@ TYPE* capitalize(String string) {
 TYPE* casefold(String string) {
     // TODO: maybe is better to modify directly the string element instead of creating a new one.
     if (string.size > 0) {
-        TYPE* chars = (TYPE*) malloc(string.size * sizeof(TYPE));
-        strncpy(chars, string.string.arr, string.size);
+        TYPE* chars = to_chars(string);
 
         for (int i = 0; i < string.size; ++i) {
             chars[i] = isupper(chars[i]) ? chars[i] + 32 : chars[i];
@@ -62,8 +67,7 @@ TYPE* casefold(String string) {
 
 TYPE* upper(String string) {
     if (string.size > 0) {
-        TYPE* chars = (TYPE*) malloc(string.size * sizeof(TYPE));
-        strncpy(chars, string.string.arr, string.size);
+        TYPE* chars = to_chars(string);
 
         for (int i = 0; i < string.size; ++i) {
             chars[i] = !isupper(chars[i]) ? chars[i] - 32 : chars[i];
@@ -73,13 +77,6 @@ TYPE* upper(String string) {
     }
 
     return NULL;
-}
-
-TYPE* chars(String string) {
-    TYPE* chars = (TYPE*) malloc(string.size * sizeof(TYPE));
-    strncpy(chars, string.string.arr, string.size);
-
-    return chars;
 }
 
 TYPE charAt(String string, int index) {
@@ -230,8 +227,7 @@ bool matches(String s, TYPE reg[]) {
 }
 
 TYPE* replace_(String string, TYPE old_, TYPE new_) {
-    TYPE* chars = (TYPE*) malloc(string.size * sizeof(TYPE));
-    strncpy(chars, string.string.arr, string.size);
+    TYPE* chars = to_chars(string);
 
     for (int i = 0; i < string.size; ++i) {
         if (chars[i] == old_) chars[i] = new_;
@@ -244,8 +240,7 @@ TYPE* replace__(String string, TYPE old_[], TYPE new_[]) {
     int s_old = strlen(old_);
     if (s_old != strlen(new_)) return NULL;
 
-    TYPE* chars = (TYPE*) malloc(string.size * sizeof(TYPE));
-    strncpy(chars, string.string.arr, string.size);
+    TYPE* chars = to_chars(string);
 
     int index;
     do {
@@ -262,8 +257,7 @@ TYPE* replace__(String string, TYPE old_[], TYPE new_[]) {
 
 // FIXME: broken somewhere
 TYPE* trim(String string) {
-    TYPE* chars = (TYPE*) malloc(string.size * sizeof(TYPE));
-    strncpy(chars, string.string.arr, string.size);
+    TYPE* chars = to_chars(string);
 
     int shifts = 0;
     while(chars[0] == ' ' || chars[0] == '\t' || chars[0] == '\n') {
