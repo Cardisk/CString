@@ -33,10 +33,7 @@ void set(String* string, TYPE chars[]) {
 }
 
 TYPE* to_chars(String string) {
-    TYPE* chars = (TYPE*) malloc(string.size * sizeof(TYPE));
-    strncpy(chars, string.string.arr, string.size);
-
-    return chars;
+    return strndup(string.string.arr, string.size);
 }
 
 TYPE* capitalize(String string) {
@@ -287,20 +284,21 @@ TYPE** split(String string, TYPE* regex) {
     regex_t reg;
     int result;
 
+    printf("ciao\n");
     result = regcomp(&reg, regex, REG_EXTENDED | REG_ICASE);
     if (result) {
         printf("Unsuccessful regex compilation.");
         exit(EXIT_FAILURE);
     }
-
+    printf("ciao\n");
     regmatch_t regmatch;
     int eflags = 0;
     int match = 0;
     size_t offset = 0;
-    size_t length = string.size;
 
     TYPE** matches = malloc(1 * sizeof(TYPE*));
 
+    printf("ciao\n");
     while (regexec(&reg, string.string.arr + offset, 1, &regmatch, eflags) == 0) {
         eflags = REG_NOTBOL;
 
@@ -315,21 +313,21 @@ TYPE** split(String string, TYPE* regex) {
             matches = pointer;
         }
 
+        // maybe broken with the casting
         matches[match] = strndup(offset + string.string.arr, regmatch.rm_eo - regmatch.rm_so);
-
         match += 1;
 
         offset += regmatch.rm_eo;
 
         if (regmatch.rm_so == regmatch.rm_eo) offset += 1;
 
-        if (offset > length) break;
+        if (offset > string.size) break;
     }
     if (match == 0) {
         free(matches[0]);
         free(matches);
     }
-
+    printf("match: %d\n", match);
     return (match > 0) ? matches : NULL;
 }
 

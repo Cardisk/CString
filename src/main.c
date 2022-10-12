@@ -43,6 +43,9 @@ int main() {
     set(&s1, "test");
     printf("SUBSTRING: %s -> %s\n", to_chars(s1), substring_begin(s1, 1));
 
+    set(&s1, "test test");
+    printf("SPLIT: \'%c\', '%s' -> %s %s\n", ' ', to_chars(s1), split(s1, " ")[0], split(s1, " ")[0]);
+
     destroy(&s1);
     destroy(&s2);
     return EXIT_SUCCESS;
