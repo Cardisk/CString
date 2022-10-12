@@ -278,57 +278,8 @@ TYPE* substring_begin_end(String string, int beginIndex, int endIndex) {
     return strndup(string.string.arr, (endIndex - beginIndex));
 }
 
-// FIXME: it returns the matches of the regex not the string slices.
-TYPE** split(String string, TYPE* regex) {
-    //TODO: maybe is better to return a pointer to the slice instead of copying data.
-    regex_t reg;
-    int result;
-
-    printf("ciao\n");
-    result = regcomp(&reg, regex, REG_EXTENDED | REG_ICASE);
-    if (result) {
-        printf("Unsuccessful regex compilation.");
-        exit(EXIT_FAILURE);
-    }
-    printf("ciao\n");
-    regmatch_t regmatch;
-    int eflags = 0;
-    int match = 0;
-    size_t offset = 0;
-
-    TYPE** matches = malloc(1 * sizeof(TYPE*));
-
-    printf("ciao\n");
-    while (regexec(&reg, string.string.arr + offset, 1, &regmatch, eflags) == 0) {
-        eflags = REG_NOTBOL;
-
-        if (match != 0) {
-            TYPE** pointer = realloc(&matches, (match + 1) * sizeof(TYPE*));
-            if (!pointer) {
-                printf("Memory allocation failed.");
-                free(pointer);
-                exit(EXIT_FAILURE);
-            }
-
-            matches = pointer;
-        }
-
-        // maybe broken with the casting
-        matches[match] = strndup(offset + string.string.arr, regmatch.rm_eo - regmatch.rm_so);
-        match += 1;
-
-        offset += regmatch.rm_eo;
-
-        if (regmatch.rm_so == regmatch.rm_eo) offset += 1;
-
-        if (offset > string.size) break;
-    }
-    if (match == 0) {
-        free(matches[0]);
-        free(matches);
-    }
-    printf("match: %d\n", match);
-    return (match > 0) ? matches : NULL;
+TYPE** split(String string, TYPE* separators) {
+    return NULL;
 }
 
 String create(TYPE chars[]) {
