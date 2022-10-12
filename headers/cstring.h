@@ -180,10 +180,15 @@ int indexOfSubStr__(TYPE src[], TYPE seq[]) {
 }
 
 #define indexOfSubStr(x, y) _Generic(x, String: indexOfSubStr_, TYPE*: indexOfSubStr__)(x, y)
+#define contains(x, y) (indexOfSubStr(x, y) != -1) ? true : false
 
-bool contains(String string, TYPE seq[]) {
-    return (indexOfSubStr(string, seq) != -1) ? true : false;
-}
+//bool contains_(String string, TYPE seq[]) {
+//    return (indexOfSubStr(string, seq) != -1) ? true : false;
+//}
+//
+//bool contains__(TYPE* string, TYPE seq[]) {
+//    return (indexOfSubStr(string, seq) != -1) ? true : false;
+//}
 
 bool endsWith(String string, TYPE seq[]) {
     int index = indexOfSubStr(string, seq);
@@ -278,7 +283,12 @@ TYPE* substring_begin_end(String string, int beginIndex, int endIndex) {
     return strndup(string.string.arr, (endIndex - beginIndex));
 }
 
-TYPE** split(String string, TYPE* separators) {
+TYPE** split(String string, TYPE* separator) {
+    if (contains(string, separator)) {
+        int offset = 0;
+        //while (contains(string.string.arr + offset, separator))
+    }
+
     return NULL;
 }
 
