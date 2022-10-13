@@ -49,7 +49,7 @@ you can *free_* the memory by destroying it.
 
     7   free_(&array);
 
-
+<br>
 
 >*At the moment you can only have one type of DArray per
 program, but in future I will modify and correct it*
@@ -100,6 +100,8 @@ Here a list of the functions provided by this library:
 - substring_begin
 - substring_begin_end
 - split
+
+<br>
 
 >***An example of the usage of this functions is inside the file
 >`src/main.c`***
