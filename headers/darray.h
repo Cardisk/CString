@@ -20,6 +20,7 @@ typedef struct DArray {
 } DArray;
 
 /// Initializes the struct object.
+/// \param array DArray* struct variable
 void init_(DArray* array) {
     TYPE* pointer = (TYPE*) malloc(sizeof(TYPE));
     if (!pointer) {
@@ -33,6 +34,7 @@ void init_(DArray* array) {
 }
 
 /// Destroys a struct object.
+/// \param array DArray* struct variable
 void free_(DArray* array) {
     free(array->arr);
     array->arr = NULL;
@@ -40,12 +42,15 @@ void free_(DArray* array) {
 }
 
 /// Resets the struct object to its initial state.
+/// \param array DArray* struct variable
 void reset_(DArray* array) {
     free_(array);
     init_(array);
 }
 
 /// Adds an element to the struct object passed.
+/// \param array DArray* struct variable
+/// \param value TYPE value that has to be added to the array
 void add_(DArray* array, TYPE value) {
     array->size += 1;
 
@@ -61,6 +66,8 @@ void add_(DArray* array, TYPE value) {
 }
 
 /// Deletes an element contained into the struct object passed at the relative index.
+/// \param array DArray* struct variable
+/// \param index Index that has to be removed
 void delete_(DArray *array, int index) {
     DArray temp;
 
