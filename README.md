@@ -68,7 +68,7 @@ if you decide to import `cstring.h` you don't need to import
 also `darray.h`. 
 
 Remember always to deallocate the memory occupied by the
-struct. You can do it by calling *destroy* function.
+struct. You can do it by calling the *destroy* function.
 
     2   destroy(&string);
 
