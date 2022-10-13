@@ -15,8 +15,6 @@ with them.
 
 ### *USAGE*
 
-___
-
 `darray.h`:
 
 To define a dynamic array, the first thing that you need to
