@@ -17,7 +17,7 @@ int main() {
     // CASEFOLD
     set(&s1, "HelLO");
     output_1 = to_chars(s1);
-    output_2 = casefold(s1);
+    output_2 = lower(s1);
     printf("CASEFOLD: %s -> %s\n", output_1, output_2);
     free(output_1);
     free(output_2);

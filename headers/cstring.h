@@ -1,8 +1,9 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "cppcoreguidelines-narrowing-conversions"
 //
 // Created by Matteo Cardinaletti on 29/09/22.
 //
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cppcoreguidelines-narrowing-conversions"
 
 #ifndef CSTRING_CSTRING_H
 #define CSTRING_CSTRING_H
@@ -15,11 +16,15 @@
 #include <stdbool.h>
 #include <regex.h>
 
+/// String struct representing a string.
+/// DArray string - DArray struct type that contains the string
+/// size_t size - size_t type that contains the length of the string
 typedef struct String {
     DArray string;
     size_t size;
 } String;
 
+/// Sets a new char[] to the struct pointer passed as an argument.
 void set(String* string, TYPE chars[]) {
     if (string->size > 0) {
         reset_(&string->string);
@@ -32,10 +37,13 @@ void set(String* string, TYPE chars[]) {
     string->size = string->string.size;
 }
 
+/// Returns a copy of the string of the struct variable passed.
 TYPE* to_chars(String string) {
     return strndup(string.string.arr, string.size);
 }
 
+/// Returns a copy of the capitalized string of the struct variable passed.
+/// If the length of the string passed is 0, it returns NULL.
 TYPE* capitalize(String string) {
     // TODO: maybe is better to modify directly the string element instead of creating a new one.
     if (string.size > 0) {
@@ -48,7 +56,8 @@ TYPE* capitalize(String string) {
     return NULL;
 }
 
-TYPE* casefold(String string) {
+/// Returns a copy of the lower string
+TYPE* lower(String string) {
     // TODO: maybe is better to modify directly the string element instead of creating a new one.
     if (string.size > 0) {
         TYPE* chars = to_chars(string);
@@ -63,6 +72,7 @@ TYPE* casefold(String string) {
 }
 
 TYPE* upper(String string) {
+    // TODO: maybe is better to modify directly the string element instead of creating a new one.
     if (string.size > 0) {
         TYPE* chars = to_chars(string);
 
@@ -102,8 +112,8 @@ int compare(String s1, String s2) {
  * int > 0 : s1 > s2 alphabetically
  */
 int compareIgnoreCase(String s1, String s2) {
-    TYPE* c1 = casefold(s1);
-    TYPE* c2 = casefold(s2);
+    TYPE* c1 = lower(s1);
+    TYPE* c2 = lower(s2);
 
     for ( ; *c1 == *c2; ++c1, ++c2) {
         if (*c1 == '\0') return 0;
@@ -199,8 +209,8 @@ bool equals(String s1, String s2) {
 }
 
 bool equalsIgnoreCase(String s1, String s2) {
-    TYPE* c1 = casefold(s1);
-    TYPE* c2 = casefold(s2);
+    TYPE* c1 = lower(s1);
+    TYPE* c2 = lower(s2);
 
     return (s1.size == s2.size) && (indexOfSubStr(c1, c2) == 0);
 }
