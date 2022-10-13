@@ -182,14 +182,6 @@ int indexOfSubStr__(TYPE src[], TYPE seq[]) {
 #define indexOfSubStr(x, y) _Generic(x, String: indexOfSubStr_, TYPE*: indexOfSubStr__)(x, y)
 #define contains(x, y) (indexOfSubStr(x, y) != -1) ? true : false
 
-//bool contains_(String string, TYPE seq[]) {
-//    return (indexOfSubStr(string, seq) != -1) ? true : false;
-//}
-//
-//bool contains__(TYPE* string, TYPE seq[]) {
-//    return (indexOfSubStr(string, seq) != -1) ? true : false;
-//}
-
 bool endsWith(String string, TYPE seq[]) {
     int index = indexOfSubStr(string, seq);
     if (index != -1) {
@@ -283,10 +275,60 @@ TYPE* substring_begin_end(String string, int beginIndex, int endIndex) {
     return strndup(string.string.arr, (endIndex - beginIndex));
 }
 
-TYPE** split(String string, TYPE* separator) {
-    if (contains(string, separator)) {
-        int offset = 0;
-        //while (contains(string.string.arr + offset, separator))
+TYPE** split(String string, TYPE* separator, int* members) {
+    if (!contains(string, separator) || strlen(separator) == 0 || string.size == 0) return NULL;
+
+    int offset = 0;
+    *members = 0;
+    size_t length = strlen(separator);
+
+    int index;
+    while (true) {
+        index = indexOfSubStr(string.string.arr + offset, separator);
+
+        if (index == -1) {
+            (*members)++;
+            break;
+        }
+
+        if (index > string.size - offset) break;
+        if (index > 0 || (index - offset) >= 1) (*members)++;
+
+        offset += (index + length);
+
+        if (offset >= string.size) break;
+    }
+
+    if ((*members) > 0) {
+        TYPE** slices = malloc((*members) * sizeof(TYPE*));
+        offset = 0;
+        int i = 0;
+        bool valid_substr = false;
+        while (true) {
+            index = indexOfSubStr(string.string.arr + offset, separator);
+
+            int len = string.size - offset;
+            if (index > len) break;
+
+            if (index == -1 && offset <= string.size) {
+                slices[i] = strndup(string.string.arr + offset, (string.size - offset));
+                break;
+            }
+
+            if (index > 0 || (index - offset) >= 1) {
+                slices[i] = strndup(string.string.arr + offset, (index > 0) ? index : (string.size - offset));
+                valid_substr = true;
+            }
+
+            offset += (index + length);
+
+            if (offset >= string.size) break;
+
+            if (valid_substr && i < (*members)) i++;
+            valid_substr = false;
+        }
+
+        return slices;
     }
 
     return NULL;
