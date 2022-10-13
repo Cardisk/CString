@@ -103,7 +103,7 @@ Here a list of the functions provided by this library:
 
 <br>
 
->***The examples of the usage of this functions are inside the file
+>***The examples of the usage of these functions are inside the file
 >`src/main.c`***
 > 
 >>**NOTE:** inside `cstring.h` is already declared a *TYPE* 
