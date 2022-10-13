@@ -69,6 +69,8 @@ void add_(DArray* array, TYPE value) {
 /// \param array DArray* struct variable
 /// \param index Index that has to be removed
 void delete_(DArray *array, int index) {
+    if (index < 0 || index > array->size) return;
+
     DArray temp;
 
     for (int i = index; i < array->size - 1; ++i) {
