@@ -63,9 +63,9 @@ the relative struct and defining it with the *create* function.
 
     1   String string = create("");
 
-This library heavily uses the DArray struct, for this reason,
-if you decide to import `cstring.h` you don't need to import
-also `darray.h`. 
+>This library heavily uses the DArray struct, for this reason,
+>if you decide to import `cstring.h` you don't need to import
+>also `darray.h`. 
 
 Remember always to deallocate the memory occupied by the
 struct. You can do it by calling the *destroy* function.
