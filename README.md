@@ -18,41 +18,51 @@ with them.
 `darray.h`:
 
 To define a dynamic array, the first thing that you need to
-do is to define a constant *TYPE* and assign it the type of
-array that you want.
+do is to import the library.
 
-    1   #define TYPE char //default -> int
-
-If you don't define it, the header file will define it
-automatically and assign to it the integer type.
+    1   #include "your/path/to/headers/darray.h"
 
 To create a new DArray array, you only need to declare a
 variable of the relative struct and initialize it with the
 function *init_*.
 
     2   DArray array;
-    3   init_(&array);
+    3   init_(&array, CHAR);
+    
+Inside the library is present an enum containing all the 
+possible types for the array. Obviously they are all primitive.
 
 Now if you want to manipulate the array you can call the 
 *add_* or *delete_* functions.
 
-    4   add_(&array, 'a');
-    5   delete_(&array, 0); // there is a safe checking
+    4   char a = 'a';
+    5   add_(&array, &a);
+    6   delete_(&array, 0); // there is a safe checking
+
+To retrieve the content of the array, there is a function,
+it's name is *get_*.
+
+    7   char elmnt = CHAR(get_(array, 0));
+    
+Because the array contains, by default, elements of type *void**,
+you need to cast them into the correct type manually.
+For this reason are present some macros that do this for you,
+one per type.
 
 In addition, in this library is also present a shortcut
-to empty the array, it calls *free_* and then *init_*.
+to empty the array, it calls *free_* and then again *init_*.
 
-    6   reset_(&array);
+    8   reset_(&array);
 
 If you don't need to work anymore with a DArray variable,
 you can *free_* the memory by destroying it.
 
-    7   free_(&array);
+    9   free_(&array);
 
 <br>
 
->*At the moment you can only have one type of DArray per
-program, but in future I will modify and correct it*
+>*NOTE: For debugging, error corrections and some features ideas,
+(SPECTREv333)[https://github.com/SPECTREv333] helped me a lot*.
 
 ___
 
@@ -106,6 +116,8 @@ Here a list of the functions provided by this library:
 >***The examples of the usage of these functions are inside the file
 >`src/main.c`***
 > 
+>*AT THE MOMENT THIS LIBRARY IS BROKEN, I'M MAKING SOME CHANGING INSIDE IT!*.
+>
 >>**NOTE:** inside `cstring.h` is already declared a *TYPE* 
 >>constant and defined with *char*.
 
