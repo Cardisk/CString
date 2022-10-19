@@ -8,6 +8,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/// Macros to handle the casting
+#define INT(x) *((int*) x)
+#define FLOAT(x)  *((float*) x)
+#define DOUBLE(x) *((double*) x)
+#define LONG(x) *((long*) x)
+#define CHAR(x) *((char*) x)
+
 /// Pseudo-generic type in c (default: INT)
 typedef enum Type {
     INT,
