@@ -62,7 +62,7 @@ you can *free_* the memory by destroying it.
 <br>
 
 >*NOTE: For debugging, error corrections and some features ideas,
-(SPECTREv333)[https://github.com/SPECTREv333] helped me a lot*.
+[SPECTREv333](https://github.com/SPECTREv333) helped me a lot*.
 
 ___
 
