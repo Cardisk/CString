@@ -15,7 +15,7 @@
 #define LONG(x) *((long*) x)
 #define CHAR(x) *((char*) x)
 
-/// Pseudo-generic type in c (default: INT)
+/// Pseudo-generic type in c
 typedef enum Type {
     INT,
     FLOAT,
@@ -133,6 +133,94 @@ void delete_(DArray *array, int index) {
 void* get_(DArray array, int index) {
     if (index < 0 || index >= array.size) exit(EXIT_FAILURE);
     return ((void*) (array.arr[index]));
+}
+
+int* int_array_(DArray array) {
+    int* pointer = malloc(array.size * sizeof(int));
+    if (!pointer) {
+        free(pointer);
+        exit(EXIT_FAILURE);
+    }
+
+    for (int i = 0; i < array.size; ++i) {
+        pointer[i] = INT(get_(array, i));
+    }
+
+    return pointer;
+}
+
+float* float_array_(DArray array) {
+    float* pointer = malloc(array.size * sizeof(float));
+    if (!pointer) {
+        free(pointer);
+        exit(EXIT_FAILURE);
+    }
+
+    for (int i = 0; i < array.size; ++i) {
+        pointer[i] = FLOAT(get_(array, i));
+    }
+
+    return pointer;
+}
+
+double* double_array_(DArray array) {
+    double* pointer = malloc(array.size * sizeof(double));
+    if (!pointer) {
+        free(pointer);
+        exit(EXIT_FAILURE);
+    }
+
+    for (int i = 0; i < array.size; ++i) {
+        pointer[i] = DOUBLE(get_(array, i));
+    }
+
+    return pointer;
+}
+
+long* long_array_(DArray array) {
+    long* pointer = malloc(array.size * sizeof(long));
+    if (!pointer) {
+        free(pointer);
+        exit(EXIT_FAILURE);
+    }
+
+    for (int i = 0; i < array.size; ++i) {
+        pointer[i] = LONG(get_(array, i));
+    }
+
+    return pointer;
+}
+
+char* char_array_(DArray array) {
+    char* pointer = malloc((array.size + 1) * sizeof(char));
+    if (!pointer) {
+        free(pointer);
+        exit(EXIT_FAILURE);
+    }
+
+    for (int i = 0; i < array.size; ++i) {
+        pointer[i] = CHAR(get_(array, i));
+    }
+    pointer[array.size] = '\0';
+
+    return pointer;
+}
+
+void* to_array_(DArray array) {
+    switch (array.type) {
+        case INT:
+            return (void*) int_array_(array);
+        case FLOAT:
+            return (void*) float_array_(array);
+        case DOUBLE:
+            return (void*) double_array_(array);
+        case LONG:
+            return (void*) long_array_(array);
+        case CHAR:
+            return (void*) char_array_(array);
+        default:
+            break;
+    }
 }
 
 #endif // CSTRING_DARRAY_H
