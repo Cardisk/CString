@@ -87,7 +87,7 @@ int main() {
     free(output_1);
     free(output_2);
 
-    // SUBSTRING_BEGIN (SUBSTRING_BEGIN_END)
+    // SUBSTRING_BEGIN (or SUBSTRING_BEGIN_END)
     set(&s1, "test");
     output_1 = to_chars(s1);
     output_2 = substring_begin(s1, 1);
