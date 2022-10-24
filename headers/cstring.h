@@ -352,8 +352,10 @@ char* trim(String string) {
 
     while(isspace(CHAR(get_(string.string, size - 1)))) --size;
     while(CHAR(get_(string.string, 0)) && isspace(CHAR(get_(string.string, 0)))) ++string.string.arr, --size;
+    string.size = size;
+    string.string.size = size;
 
-    return strndup((char*) string.string.arr, size);
+    return strndup(char_array_(string.string), size);
 }
 
 /// Returns a substring of the given string that starts from the given index.
@@ -364,8 +366,10 @@ char* substring_begin(String string, int beginIndex) {
     if (beginIndex < 0 || beginIndex >= string.size) return NULL;
 
     for (int i = 0; i < beginIndex; ++i) ++string.string.arr;
+    string.size = string.size - beginIndex;
+    string.string.size = string.string.size - beginIndex;
 
-    return strndup((char*) string.string.arr, (string.size - beginIndex));
+    return strndup(char_array_(string.string), (string.size - beginIndex));
 }
 
 /// Returns a substring of the given string that is between the given indexes.
@@ -378,8 +382,10 @@ char* substring_begin_end(String string, int beginIndex, int endIndex) {
         endIndex < 0 || endIndex >= string.size || beginIndex == endIndex) return NULL;
 
     for (int i = 0; i < beginIndex; ++i) ++string.string.arr;
+    string.size = string.size - (endIndex - beginIndex);
+    string.string.size = string.string.size - (endIndex - beginIndex);
 
-    return strndup((char*) string.string.arr, (endIndex - beginIndex));
+    return strndup(char_array_(string.string), (endIndex - beginIndex));
 }
 
 /// Returns a pointer array that contains all the substrings.
