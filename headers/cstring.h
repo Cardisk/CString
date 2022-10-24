@@ -460,7 +460,7 @@ String create(char chars[]) {
 /// \param string String* struct variable
 void destroy(String* string) {
     string->size = 0;
-    deep_free_(&string->string);
+    free_(&string->string);
 }
 
 #endif //CSTRING_CSTRING_H

@@ -76,15 +76,6 @@ void free_(DArray* array) {
     array->size = 0;
 }
 
-/// Destroys a struct object and all the pointers inside it.
-/// \param array DArray* struct variable
-void deep_free_(DArray* array) {
-    for (int i = 0; i < array->size; ++i) {
-        free(array->arr[i]);
-    }
-    free_(array);
-}
-
 /// Resets the struct object to its initial state.
 /// \param array DArray* struct variable
 void reset_(DArray* array) {
