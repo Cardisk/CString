@@ -2,20 +2,32 @@
 
 ### *INFO*
 
-`cstring.h` is a basic library to make easier the usage and
+`cstring.h` is a basic library to make easier the use and
 management of strings in c. All the functions provided by
-this header file are inspired from the methods provided in
-Java by the String class.
+this header file are inspired from the Java's String class.
 
-`darray.h` is a library function that allow to create
-dynamical arrays and provide standard functions to work
-with them. 
+`darray.h` is a library that allows to create
+dynamic arrays and provide standard functions to work
+with them. **HEAVILY USED INSIDE** `cstring.h`
 
->**HEAVILY USED INSIDE** `cstring.h`
+>*NOTE: For debugging, error corrections and some features ideas,
+[SPECTREv333](https://github.com/SPECTREv333) helped me a lot. Go check his profile!*
 
 ### *USAGE*
 
 `darray.h`:
+
+The DArray struct is not only a dynamic array, but it is a collection of nodes.
+The array it wraps (of type _void**_), allows you to insert practically everything you
+want. This type of grouping, technically, permits you to create a not homogeneous data structure, but
+if you do so, you need something to keep track of the type of each node. Maybe in the future I will 
+refactor this library to make it possible without writing other management code outside the header file.
+Inside the DArray struct there is an enum representing a primitive type, probably it isn't
+required, but I wanted something to keep track of the type of the structure.
+The header does not provide any sorting algorithm because the type of the node is _void*_, 
+so it's impossible to determine how it should be sorted. I leave you the fun of implementing any sorting 
+algorithm, and maybe you will write a brand-new type of sorting that will replace all the old ones!
+Here's a little tutorial.
 
 To define a dynamic array, the first thing that you need to
 do is to import the library.
@@ -29,8 +41,8 @@ function *init_*.
     2   DArray array;
     3   init_(&array, CHAR);
     
-Inside the library is present an enum containing all the 
-possible types for the array. Obviously they are all primitive.
+Inside the library is present an enum, like I said into the introduction, to easily
+manage the primitive types.
 
 Now if you want to manipulate the array you can call the 
 *add_* or *delete_* functions.
@@ -39,14 +51,13 @@ Now if you want to manipulate the array you can call the
     5   add_(&array, &a);
     6   delete_(&array, 0); // there is a safe checking
 
-To retrieve the content of the array, there is a function,
-it's name is *get_*.
+To retrieve the content of the array, there is a function named *get_*.
 
     7   char elmnt = CHAR(get_(array, 0));
     
 Because the array contains, by default, elements of type *void**,
 you need to cast them into the correct type manually.
-For this reason are present some macros that do this for you,
+For this reason there are some macros that do this for you,
 one per type.
 
 In addition, in this library is also present a shortcut
@@ -59,33 +70,37 @@ you can *free_* the memory by destroying it.
 
     9   free_(&array);
 
-<br>
-
->*NOTE: For debugging, error corrections and some features ideas,
-[SPECTREv333](https://github.com/SPECTREv333) helped me a lot*.
-
 ___
 
 `cstring.h`:
 
-To create a new string you only need to declare a variable of
-the relative struct and defining it with the *create* function.
-
-    1   String string = create("");
+The String struct is a wrapper for a DArray of type CHAR. With the methods provided,
+you're more or less capable of manipulating strings like other languages do.
+Here's a little tutorial.
 
 >This library heavily uses the DArray struct, for this reason,
 >if you decide to import `cstring.h` you don't need to import
->also `darray.h`. 
+>`darray.h`.
+
+The first step is to include the library.
+
+    1   #include "path/to/headers/cstring.h"
+
+To create and initialize a new string, you only need to declare a variable of
+the relative struct and defining it with the *create* function.
+
+    2   String string = create("");
 
 Remember always to deallocate the memory occupied by the
-struct. You can do it by calling the *destroy* function.
+struct calling the function named *destroy*.
 
-    2   destroy(&string);
+    3   destroy(&string);
 
 Here a list of the functions provided by this library:
 
 - create
 - destroy
+- str_size
 - set
 - to_chars
 - capitalize
@@ -111,13 +126,7 @@ Here a list of the functions provided by this library:
 - substring_begin_end
 - split
 
-<br>
-
->***The examples of the usage of these functions are inside the file
->`src/main.c`***
-> 
->*AT THE MOMENT THIS LIBRARY IS BROKEN, I'M MAKING SOME CHANGING INSIDE IT!*.
->
->>**NOTE:** inside `cstring.h` is already declared a *TYPE* 
->>constant and defined with *char*.
+>***You can find all the examples inside `src/main.c`***
+>>*NOTE: feel free to fork the project and modify this code.
+>> For any idea you can present a pull request on this repository.*
 
