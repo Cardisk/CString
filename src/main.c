@@ -14,11 +14,11 @@ int main() {
     printf("CHARS: %s\n", output_1);
     free(output_1);
 
-    // CASEFOLD
+    // LOWER
     set(&s1, "HelLO");
     output_1 = to_chars(s1);
     output_2 = lower(s1);
-    printf("CASEFOLD: %s -> %s\n", output_1, output_2);
+    printf("LOWER: %s -> %s\n", output_1, output_2);
     free(output_1);
     free(output_2);
 
@@ -34,7 +34,10 @@ int main() {
     printf("UPPER: %s -> %s\n", output_1, output_2);
     free(output_2);
 
-    // COMPARE
+    // CHAR_AT
+    printf("CHARAT: %s, %d -> %c\n", output_1, 2, charAt(s1, 2));
+
+    // COMPARE (or COMPARE_IGNORE_CASE)
     output_2 = to_chars(s2);
     printf("COMPARE: %s, %s -> %d\n", output_1, output_2, compare(s1, s2));
     free(output_2);
@@ -50,7 +53,7 @@ int main() {
     // IS_EMPTY
     printf("ISEMPTY: %s -> %d\n", output_1, isEmpty(s1));
 
-    // INDEX_OF
+    // INDEX_OF (or LAST_INDEX_OF)
     printf("INDEXOF: %s, %c -> %d\n", output_1, 's', indexOf(s1, 's'));
 
     // INDEX_OF_SUB_STR
@@ -65,7 +68,7 @@ int main() {
     // STARTS_WITH
     printf("STARTSWITH: %s, %s -> %d\n", output_1, "t", startsWith(s1, "t"));
 
-    // EQUALS
+    // EQUALS (or EQUALS_IGNORE_CASE)
     output_2 = to_chars(s2);
     printf("EQUALS: %s, %s -> %d\n", output_1, output_2, equals(s1, s2));
     free(output_2);
