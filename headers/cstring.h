@@ -20,14 +20,20 @@
 /// size_t size - size_t type that contains the length of the string
 typedef struct String {
     DArray string;
-    size_t* size;
 } String;
+
+/// Returns the size of the actual string.
+/// \param string String struct variable
+/// \return size_t dimension
+size_t str_size(String string) {
+    return string.string.size;
+}
 
 /// Sets a new char[] to the struct pointer passed as an argument.
 /// \param string String* struct variable
 /// \param chars char[] containing the string
 void set(String* string, char chars[]) {
-    if (*string->size > 0) {
+    if (str_size(*string) > 0) {
         reset_(&string->string);
     }
 
@@ -40,7 +46,7 @@ void set(String* string, char chars[]) {
 /// \param string String struct variable
 /// \return A copy of the string
 char* to_chars(String string) {
-    return strndup(char_array_(string.string), *string.size);
+    return strndup(char_array_(string.string), str_size(string));
 }
 
 /// Returns a copy of the capitalized string of the struct variable passed.
@@ -49,7 +55,7 @@ char* to_chars(String string) {
 /// \return A copy of the string
 char* capitalize(String string) {
     // TODO: maybe is better to modify directly the string element instead of creating a new one.
-    if (*string.size > 0) {
+    if (str_size(string) > 0) {
         char* chars = to_chars(string);
 
         chars[0] = !isupper(chars[0]) ? chars[0] - 32 : chars[0];
@@ -65,10 +71,10 @@ char* capitalize(String string) {
 /// \return A copy of the string
 char* lower(String string) {
     // TODO: maybe is better to modify directly the string element instead of creating a new one.
-    if (*string.size > 0) {
+    if (str_size(string) > 0) {
         char* chars = to_chars(string);
 
-        for (int i = 0; i < *string.size; ++i) {
+        for (int i = 0; i < str_size(string); ++i) {
             chars[i] = isupper(chars[i]) ? chars[i] + 32 : chars[i];
         }
         return chars;
@@ -83,10 +89,10 @@ char* lower(String string) {
 /// \return A copy of the string
 char* upper(String string) {
     // TODO: maybe is better to modify directly the string element instead of creating a new one.
-    if (*string.size > 0) {
+    if (str_size(string) > 0) {
         char* chars = to_chars(string);
 
-        for (int i = 0; i < *string.size; ++i) {
+        for (int i = 0; i < str_size(string); ++i) {
             chars[i] = !isupper(chars[i]) ? chars[i] - 32 : chars[i];
         }
 
@@ -97,14 +103,18 @@ char* upper(String string) {
 }
 
 /// Returns the character contained inside the string of the struct variable passed, at the given index.
-/// If the passed index isn't inside the string bounds, it returns \0.
+/// If the passed index isn't inside the string bounds, it returns \0. The index can be also negative (it starts from the end).
 /// \param string String struct variable
 /// \param index Index of the desired character
 /// \return The character that corresponds to the given index
 char charAt(String string, int index) {
-    if (index < - (*string.size) + 1 || index > (*string.size) - 1) return '\0';
+    if (index < -((int)str_size(string))) return '\0';
 
-    if (index < 0) return CHAR(get_(string.string, (*string.size) + index));
+    if (index < 0) {
+        index = str_size(string) + index;
+        if (index > str_size(string) - 1) return '\0';
+    }
+
     return CHAR(get_(string.string, index));
 }
 
@@ -147,11 +157,11 @@ int compareIgnoreCase(String s1, String s2) {
 /// \return An array of characters
 char* concat(String s1, String s2) {
     // TODO: maybe is better to modify directly the string element instead of creating a new one.
-    char* chars = (char*) malloc(((*s1.size) + (*s2.size)) * sizeof(char));
-    strncpy(chars, char_array_(s1.string), *s1.size);
+    char* chars = (char*) malloc((str_size(s1) + str_size(s2)) * sizeof(char));
+    strncpy(chars, char_array_(s1.string), str_size(s1));
 
-    for (int i = 0; i < *s2.size; ++i) {
-        chars[i + (*s1.size)] = CHAR(get_(s2.string, i));
+    for (int i = 0; i < str_size(s2); ++i) {
+        chars[i + str_size(s1)] = CHAR(get_(s2.string, i));
     }
 
     return chars;
@@ -161,7 +171,7 @@ char* concat(String s1, String s2) {
 /// \param string String struct variable
 /// \return A boolean
 bool isEmpty(String string) {
-    return (*string.size) == 0;
+    return str_size(string) == 0;
 }
 
 /// Returns the index of the given character inside the string.
@@ -169,13 +179,13 @@ bool isEmpty(String string) {
 /// \param ch A character
 /// \return The index of the given character. If not found, returns -1
 int indexOf(String string, char ch) {
-    if ((*string.size) == 0) return -1;
+    if (str_size(string) == 0) return -1;
 
     int i = 0;
-    for ( ; i < *string.size; ++i) {
+    for ( ; i < str_size(string); ++i) {
         if (CHAR(get_(string.string, i)) == ch) break;
     }
-    return (i >= (*string.size)) ? -1 : i;
+    return (i >= str_size(string)) ? -1 : i;
 }
 
 /// Returns the index of the last occurrence of the given character inside the string.
@@ -183,10 +193,10 @@ int indexOf(String string, char ch) {
 /// \param ch A character
 /// \return The last index of the given character. If not found, returns -1
 int lastIndexOf(String string, char ch) {
-    if ((*string.size) == 0) return -1;
+    if (str_size(string) == 0) return -1;
 
     int last = 0, i = 0;
-    for (; i < *string.size; ++i) {
+    for (; i < str_size(string); ++i) {
         if (CHAR(get_(string.string, i)) == ch) last = i;
     }
 
@@ -199,11 +209,11 @@ int lastIndexOf(String string, char ch) {
 /// \return The index of the substring. If not found, returns -1
 int indexOfSubStr_(String src, char seq[]) {
     int s_seq = strlen(seq);
-    if (((*src.size) == s_seq && s_seq == 0) || s_seq == 0) return 0;
-    if ((*src.size) == 0) return -1;
+    if ((str_size(src) == s_seq && s_seq == 0) || s_seq == 0) return 0;
+    if (str_size(src) == 0) return -1;
 
     int i = 0, j = 0;
-    for (; i < *src.size; ++i) {
+    for (; i < str_size(src); ++i) {
         if (CHAR(get_(src.string, i)) == seq[j]) j++;
         else j = 0;
 
@@ -245,7 +255,7 @@ int indexOfSubStr__(char src[], char seq[]) {
 bool endsWith(String string, char seq[]) {
     int index = indexOfSubStr(string, seq);
     if (index != -1) {
-        if (index + strlen(seq) == (*string.size)) return true;
+        if (index + strlen(seq) == str_size(string)) return true;
     }
     return false;
 }
@@ -263,7 +273,7 @@ bool startsWith(String string, char seq[]) {
 /// \param s2 String struct variable
 /// \return A boolean
 bool equals(String s1, String s2) {
-    return ((*s1.size) == (*s2.size)) && (indexOfSubStr(s1, char_array_(s2.string)) == 0);
+    return (str_size(s1) == str_size(s2)) && (indexOfSubStr(s1, char_array_(s2.string)) == 0);
 }
 
 /// Returns a boolean. Checks if the first string is equals to the second one. It ignores the string case.
@@ -278,7 +288,7 @@ bool equalsIgnoreCase(String s1, String s2) {
     free(c1);
     free(c2);
 
-    return ((*s1.size) == (*s2.size)) && (result == 0);
+    return (str_size(s1) == str_size(s2)) && (result == 0);
 }
 
 /// Returns a boolean. Checks if the string of the given struct variable matches with the passed regex.
@@ -308,7 +318,7 @@ bool matches(String s, char reg[]) {
 char* replace_(String string, char old_, char new_) {
     char* chars = to_chars(string);
 
-    for (int i = 0; i < *string.size; ++i) {
+    for (int i = 0; i < str_size(string); ++i) {
         if (chars[i] == old_) chars[i] = new_;
     }
 
@@ -341,16 +351,15 @@ char* replace__(String string, char old_[], char new_[]) {
 /// Use this instead of using directly the function.
 #define replace(x, y, z) _Generic((y, z), int: replace_, char*: replace__)(x, y, z)
 
-// FIXME
 /// Returns a copy of the string without the leading and trailing spaces.
 /// \param string String struct variable
 /// \return A copy of the string
 char* trim(String string) {
-    size_t size = *string.size;
+    size_t size = str_size(string);
 
     while(isspace(CHAR(get_(string.string, size - 1)))) --size;
     while(CHAR(get_(string.string, 0)) && isspace(CHAR(get_(string.string, 0)))) ++string.string.arr, --size;
-    *string.size = size;
+    string.string.size = size;
 
     return strndup(char_array_(string.string), size);
 }
@@ -360,12 +369,12 @@ char* trim(String string) {
 /// \param beginIndex Start index of substring
 /// \return A copy of the string that represent the substring
 char* substring_begin(String string, int beginIndex) {
-    if (beginIndex < 0 || beginIndex >= (*string.size)) return NULL;
+    if (beginIndex < 0 || beginIndex >= str_size(string)) return NULL;
 
     for (int i = 0; i < beginIndex; ++i) ++string.string.arr;
-    *string.size = (*string.size) - beginIndex;
+    string.string.size = str_size(string) - beginIndex;
 
-    return strndup(char_array_(string.string), ((*string.size) - beginIndex));
+    return strndup(char_array_(string.string), (str_size(string) - beginIndex));
 }
 
 /// Returns a substring of the given string that is between the given indexes.
@@ -374,11 +383,11 @@ char* substring_begin(String string, int beginIndex) {
 /// \param endIndex End index of substring
 /// \return A copy of the string that represent the substring
 char* substring_begin_end(String string, int beginIndex, int endIndex) {
-    if (beginIndex < 0 || beginIndex >= (*string.size) ||
-        endIndex < 0 || endIndex >= (*string.size) || beginIndex == endIndex) return NULL;
+    if (beginIndex < 0 || beginIndex >= str_size(string) ||
+        endIndex < 0 || endIndex >= str_size(string) || beginIndex == endIndex) return NULL;
 
     for (int i = 0; i < beginIndex; ++i) ++string.string.arr;
-    *string.size = (*string.size) - (endIndex - beginIndex);
+    string.string.size = str_size(string) - (endIndex - beginIndex);
 
     return strndup(char_array_(string.string), (endIndex - beginIndex));
 }
@@ -389,7 +398,7 @@ char* substring_begin_end(String string, int beginIndex, int endIndex) {
 /// \param members Integer pointer where to store how many substrings there are
 /// \return A matrix made of pointers
 char** split(String string, char* separator, int* members) {
-    if (!contains(string, separator) || strlen(separator) == 0 || (*string.size) == 0) return NULL;
+    if (!contains(string, separator) || strlen(separator) == 0 || str_size(string) == 0) return NULL;
 
     int offset = 0;
     *members = 0;
@@ -404,12 +413,12 @@ char** split(String string, char* separator, int* members) {
             break;
         }
 
-        if (index > (*string.size) - offset) break;
+        if (index > str_size(string) - offset) break;
         if (index > 0 || (index - offset) >= 1) (*members)++;
 
         offset += (index + length);
 
-        if (offset >= (*string.size)) break;
+        if (offset >= str_size(string)) break;
     }
 
     if ((*members) > 0) {
@@ -420,22 +429,22 @@ char** split(String string, char* separator, int* members) {
         while (true) {
             index = indexOfSubStr(char_array_(string.string) + offset, separator);
 
-            int len = (*string.size) - offset;
+            int len = str_size(string) - offset;
             if (index > len) break;
 
-            if (index == -1 && offset <= (*string.size)) {
-                slices[i] = strndup(char_array_(string.string) + offset, ((*string.size) - offset));
+            if (index == -1 && offset <= str_size(string)) {
+                slices[i] = strndup(char_array_(string.string) + offset, (str_size(string) - offset));
                 break;
             }
 
             if (index > 0 || (index - offset) >= 1) {
-                slices[i] = strndup(char_array_(string.string) + offset, (index > 0) ? index : ((*string.size) - offset));
+                slices[i] = strndup(char_array_(string.string) + offset, (index > 0) ? index : (str_size(string) - offset));
                 valid_substr = true;
             }
 
             offset += (index + length);
 
-            if (offset >= (*string.size)) break;
+            if (offset >= str_size(string)) break;
 
             if (valid_substr && i < (*members)) i++;
             valid_substr = false;
@@ -453,7 +462,6 @@ char** split(String string, char* separator, int* members) {
 String create(char chars[]) {
     String s;
     init_(&s.string, CHAR);
-    s.size = &s.string.size;
     set(&s, chars);
     return s;
 }
@@ -461,7 +469,6 @@ String create(char chars[]) {
 /// Destroys a string struct variable.
 /// \param string String* struct variable
 void destroy(String* string) {
-    string->size = 0;
     free_(&string->string);
 }
 
