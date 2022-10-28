@@ -53,7 +53,7 @@ Now if you want to manipulate the array you can call the
 
 To retrieve the content of the array, there is a function named *get_*.
 
-    7   char elmnt = CHAR(get_(array, 0));
+    7   char elmnt = *get_(array, 0, char);
     
 Because the array contains, by default, elements of type *void**,
 you need to cast them into the correct type manually.
