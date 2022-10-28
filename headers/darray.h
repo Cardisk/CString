@@ -130,10 +130,14 @@ void delete_(DArray *array, int index) {
 /// \param array DArray struct variable
 /// \param index Index of the array
 /// \return A pointer that has to be casted on the type of the DArray
-void* get_(DArray array, int index) {
+
+void* get_impl_(DArray array, int index) {
     if (index < 0 || index >= array.size) exit(EXIT_FAILURE);
     return ((void*) (array.arr[index]));
 }
+
+/// Auto-cast the pointer based on the T type passed.
+#define get_(_array, _index, T) ((T*) get_impl_((_array), (_index)))
 
 int* int_array_(DArray array) {
     int* pointer = malloc(array.size * sizeof(int));
@@ -143,7 +147,7 @@ int* int_array_(DArray array) {
     }
 
     for (int i = 0; i < array.size; ++i) {
-        pointer[i] = INT(get_(array, i));
+        pointer[i] = INT(get_impl_(array, i));
     }
 
     return pointer;
@@ -157,7 +161,7 @@ float* float_array_(DArray array) {
     }
 
     for (int i = 0; i < array.size; ++i) {
-        pointer[i] = FLOAT(get_(array, i));
+        pointer[i] = FLOAT(get_impl_(array, i));
     }
 
     return pointer;
@@ -171,7 +175,7 @@ double* double_array_(DArray array) {
     }
 
     for (int i = 0; i < array.size; ++i) {
-        pointer[i] = DOUBLE(get_(array, i));
+        pointer[i] = DOUBLE(get_impl_(array, i));
     }
 
     return pointer;
@@ -185,7 +189,7 @@ long* long_array_(DArray array) {
     }
 
     for (int i = 0; i < array.size; ++i) {
-        pointer[i] = LONG(get_(array, i));
+        pointer[i] = LONG(get_impl_(array, i));
     }
 
     return pointer;
@@ -199,28 +203,14 @@ char* char_array_(DArray array) {
     }
 
     for (int i = 0; i < array.size; ++i) {
-        pointer[i] = CHAR(get_(array, i));
+        pointer[i] = CHAR(get_impl_(array, i));
     }
     pointer[array.size] = '\0';
 
     return pointer;
 }
 
-void* to_array_(DArray array) {
-    switch (array.type) {
-        case INT:
-            return (void*) int_array_(array);
-        case FLOAT:
-            return (void*) float_array_(array);
-        case DOUBLE:
-            return (void*) double_array_(array);
-        case LONG:
-            return (void*) long_array_(array);
-        case CHAR:
-            return (void*) char_array_(array);
-        default:
-            break;
-    }
-}
+#define concat_(x, y) x ## y
+#define to_array_(_array, T) concat_(T, _array_)(_array)
 
 #endif // CSTRING_DARRAY_H
