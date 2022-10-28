@@ -115,7 +115,7 @@ char charAt(String string, int index) {
         if (index > str_size(string) - 1) return '\0';
     }
 
-    return CHAR(get_(string.string, index));
+    return *get_(string.string, index, char);
 }
 
 /// Compares the two given struct variables and returns an integer value that says if the first string is >,
@@ -161,7 +161,7 @@ char* concat(String s1, String s2) {
     strncpy(chars, char_array_(s1.string), str_size(s1));
 
     for (int i = 0; i < str_size(s2); ++i) {
-        chars[i + str_size(s1)] = CHAR(get_(s2.string, i));
+        chars[i + str_size(s1)] = *get_(s2.string, i, char);
     }
 
     return chars;
@@ -183,7 +183,7 @@ int indexOf(String string, char ch) {
 
     int i = 0;
     for ( ; i < str_size(string); ++i) {
-        if (CHAR(get_(string.string, i)) == ch) break;
+        if (*get_(string.string, i, char) == ch) break;
     }
     return (i >= str_size(string)) ? -1 : i;
 }
@@ -197,7 +197,7 @@ int lastIndexOf(String string, char ch) {
 
     int last = 0, i = 0;
     for (; i < str_size(string); ++i) {
-        if (CHAR(get_(string.string, i)) == ch) last = i;
+        if (*get_(string.string, i, char) == ch) last = i;
     }
 
     return (last == 0) ? -1 : last;
@@ -214,7 +214,7 @@ int indexOfSubStr_(String src, char seq[]) {
 
     int i = 0, j = 0;
     for (; i < str_size(src); ++i) {
-        if (CHAR(get_(src.string, i)) == seq[j]) j++;
+        if (*get_(src.string, i, char) == seq[j]) j++;
         else j = 0;
 
         if (j == s_seq) break;
@@ -357,8 +357,8 @@ char* replace__(String string, char old_[], char new_[]) {
 char* trim(String string) {
     size_t size = str_size(string);
 
-    while(isspace(CHAR(get_(string.string, size - 1)))) --size;
-    while(CHAR(get_(string.string, 0)) && isspace(CHAR(get_(string.string, 0)))) ++string.string.arr, --size;
+    while(isspace(*get_(string.string, size - 1, char))) --size;
+    while(*get_(string.string, 0, char) && isspace(*get_(string.string, 0, char))) ++string.string.arr, --size;
     string.string.size = size;
 
     return strndup(char_array_(string.string), size);
